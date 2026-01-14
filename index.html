@@ -1,77 +1,591 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vishnu Gatla - Network & Security Consultant</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
   <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    min-height: 100vh;
-  }
+    :root{
+      --accent:#17a2a0;
+      --dark:#0f2027;
+      --mid:#203a43;
+      --light:#f6f7f9;
+      --text:#222;
+      --muted:#666;
+      --card:#ffffff;
+      --shadow:0 10px 30px rgba(0,0,0,.12);
+    }
 
-  .box {
-    max-width: 900px;
-    margin: 60px auto;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-  }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Arial, sans-serif;color:var(--text);background:var(--light);}
 
-  h1 {
-    color: #0f2027;
-    margin-bottom: 5px;
-  }
+    /* Top Nav */
+    .nav{
+      position:fixed; top:0; left:0; right:0;
+      z-index:1000;
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(6px);
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .nav .wrap{
+      max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;
+      padding:14px 18px;
+    }
+    .brand{
+      font-weight:800;letter-spacing:.3px;
+    }
+    .brand span{color:var(--accent)}
+    .nav a{
+      text-decoration:none;color:#2b2b2b;font-weight:700;
+      margin-left:18px;font-size:13px;letter-spacing:.3px;
+    }
+    .nav a:hover{color:var(--accent)}
+    .menu{display:flex;align-items:center}
 
-  h2 {
-    color: #203a43;
-    margin-top: 35px;
-    border-bottom: 2px solid #2c5364;
-    padding-bottom: 5px;
-  }
+    /* Hero */
+    .hero{
+      height:86vh; min-height:520px;
+      display:flex; align-items:center; justify-content:center;
+      background:
+        linear-gradient(rgba(15,32,39,.55), rgba(32,58,67,.60)),
+        url("hero.jpg") center/cover no-repeat;
+      color:white;
+      text-align:center;
+      padding:0 18px;
+      margin-top:56px; /* space for fixed nav */
+    }
+    .hero h1{
+      margin:0 0 8px;
+      font-size:48px; letter-spacing:.6px;
+      text-shadow: 0 10px 35px rgba(0,0,0,.35);
+    }
+    .hero p{margin:0 0 20px;color:rgba(255,255,255,.92);font-size:16px;line-height:1.6}
+    .btn{
+      display:inline-block;
+      padding:12px 26px;
+      border-radius:28px;
+      background:var(--accent);
+      color:white; text-decoration:none; font-weight:800;
+      box-shadow: 0 10px 25px rgba(23,162,160,.35);
+    }
+    .btn:hover{filter:brightness(.95)}
+    .scroll-down{
+      position:absolute; bottom:18px;
+      font-size:22px; opacity:.85;
+      animation:bounce 1.6s infinite;
+    }
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
-  p {
-    line-height: 1.7;
-    color: #333;
-  }
+    /* Sections */
+    section{padding:70px 18px;}
+    .container{max-width:1100px;margin:0 auto;}
+    .title{
+      text-align:center; margin-bottom:36px;
+    }
+    .title h2{margin:0;font-size:26px;letter-spacing:.4px}
+    .title .line{
+      width:90px;height:3px;background:var(--accent);margin:10px auto 0;border-radius:2px;
+    }
 
-  ul {
-    margin-left: 20px;
-    color: #333;
-  }
+    /* About */
+    .about-grid{
+      display:grid;
+      grid-template-columns: 1.1fr 1.4fr;
+      gap:28px;
+      align-items:center;
+    }
+    .photo{
+      background:#fff;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .photo img{width:100%;display:block}
+    .about-card{
+      background:var(--card);
+      border-radius:14px;
+      padding:26px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .about-card h3{margin:0 0 10px;font-size:22px}
+    .about-card h3 span{color:var(--accent)}
+    .about-card p{margin:0 0 12px;line-height:1.7;color:#333}
+    .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .tag{
+      padding:8px 12px;border-radius:999px;background:#eef8f8;color:#155b5a;
+      font-weight:700;font-size:12px;border:1px solid rgba(23,162,160,.18);
+    }
+    .social{
+      display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;
+    }
+    .social a{
+      width:38px;height:38px;border-radius:50%;
+      display:inline-flex;align-items:center;justify-content:center;
+      border:1px solid rgba(0,0,0,.12);
+      background:white;color:#1f1f1f;
+      text-decoration:none;
+    }
+    .social a:hover{border-color:var(--accent);color:var(--accent)}
 
-  li {
-    margin-bottom: 6px;
-  }
-</style>
+    /* Timeline */
+    .timeline{
+      display:grid; gap:18px;
+      max-width:900px;margin:0 auto;
+    }
+    .t-item{
+      background:var(--card);
+      border-radius:14px;
+      padding:18px 18px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.06);
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap:18px;
+      align-items:flex-start;
+    }
+    .t-year{
+      font-weight:900;color:var(--accent);font-size:18px;
+    }
+    .t-item h4{margin:0 0 6px}
+    .t-item p{margin:0;color:#444;line-height:1.6}
+
+    /* Skills */
+    .skills{
+      max-width:900px;margin:0 auto;
+      display:grid;gap:14px;
+    }
+    .skill{
+      background:var(--card);
+      border-radius:14px;
+      padding:14px 16px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .skill-top{
+      display:flex;justify-content:space-between;align-items:center;
+      font-weight:800;font-size:13px;letter-spacing:.2px;
+    }
+    .bar{
+      height:12px;border-radius:999px;
+      background:#e9eef1; overflow:hidden;
+      margin-top:10px;
+    }
+    .fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, var(--accent), #2c5364);
+      border-radius:999px;
+      transition: width 1.2s ease;
+    }
+
+    /* Projects */
+    .projects{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px;
+    }
+    .p-card{
+      background:var(--card);
+      border-radius:14px;
+      padding:20px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.06);
+      text-align:center;
+    }
+    .p-icon{
+      width:54px;height:54px;border-radius:50%;
+      margin:0 auto 12px;
+      display:flex;align-items:center;justify-content:center;
+      background:#eef8f8;color:var(--accent);
+      font-size:22px;border:1px solid rgba(23,162,160,.18);
+    }
+    .p-card h4{margin:0 0 8px}
+    .p-card p{margin:0;color:#444;line-height:1.6;font-size:13px}
+    .p-card a{display:inline-block;margin-top:12px;text-decoration:none;color:var(--accent);font-weight:800;font-size:13px}
+
+    /* Contact banner + contact form */
+    .contact-banner{
+      background:
+        linear-gradient(rgba(15,32,39,.70), rgba(32,58,67,.75)),
+        url("contact.jpg") center/cover no-repeat;
+      color:white;
+      text-align:center;
+      padding:66px 18px;
+      border-top:1px solid rgba(255,255,255,.1);
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .contact-banner h2{margin:0 0 8px;letter-spacing:.4px}
+    .contact-banner p{margin:0 0 16px;opacity:.92}
+
+    .contact-wrap{
+      max-width:900px;margin:0 auto;
+      background:var(--card);
+      border-radius:14px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.06);
+      margin-top:-30px;
+      position:relative;
+    }
+    .contact-cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .c-card{
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:12px;
+      padding:16px;
+      text-align:center;
+      background:#fff;
+    }
+    .c-card i{font-size:22px;color:var(--accent);margin-bottom:8px}
+    .c-card .label{font-weight:900;font-size:12px;color:#333;letter-spacing:.3px}
+    .c-card .value{color:#555;margin-top:6px;font-size:13px}
+
+    form{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    input, textarea{
+      padding:12px 12px;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,.14);
+      font-size:14px;
+      outline:none;
+    }
+    textarea{grid-column: 1 / -1; resize:vertical; min-height:120px}
+    .send{
+      grid-column: 1 / -1;
+      display:flex;justify-content:flex-start;
+    }
+    button{
+      border:none;
+      background:var(--accent);
+      color:white;
+      padding:12px 22px;
+      border-radius:28px;
+      font-weight:900;
+      cursor:pointer;
+    }
+    button:hover{filter:brightness(.95)}
+    .note{font-size:12px;color:#666;margin-top:10px}
+
+    /* Footer */
+    .footer{
+      background:linear-gradient(135deg, var(--dark), var(--mid));
+      color:white;
+      padding:26px 18px;
+      text-align:center;
+      margin-top:40px;
+    }
+    .footer .icons{
+      display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .footer a{
+      width:42px;height:42px;border-radius:8px;
+      display:inline-flex;align-items:center;justify-content:center;
+      border:1px solid rgba(255,255,255,.25);
+      color:white;text-decoration:none;
+    }
+    .footer a:hover{border-color:rgba(255,255,255,.55)}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .projects{grid-template-columns:1fr 1fr}
+      .about-grid{grid-template-columns:1fr}
+      .t-item{grid-template-columns:1fr}
+      .contact-cards{grid-template-columns:1fr}
+    }
+    @media (max-width: 560px){
+      .hero h1{font-size:36px}
+      .projects{grid-template-columns:1fr}
+      form{grid-template-columns:1fr}
+    }
+  </style>
 </head>
+
 <body>
-  <div class="box">
-    <h1>Vishnu Gatla</h1>
-    <p>Senior Network & Security Consultant | Over 10 Years Experience</p>
 
-    <h2>Summary of Qualifications</h2>
-    <ul>
-      <li>Over 10 Years in Enterprise Networking, Application Delivery, and Security</li>
-      <li>F5 Platforms: VIPRION, VELOS, iSeries, rSeries, BIG-IP, BIG-IQ</li>
-      <li>F5 Distributed Cloud Services</li>
-      <li>Migrations: iSeries to rSeries, VIPRION to VELOS, On-Prem to Cloud</li>
-      <li>Network & Security: Firewalls, ADC, WAF, DDoS, Zero Trust</li>
-      <li>Consulting in Banking, Healthcare, Retail, and SaaS</li>
-    </ul>
-
-    <h2>Hands-on Experience</h2>
-    <ul>
-      <li>ADC: L2–L7 Traffic Engineering, SSL Offload, iRules</li>
-      <li>WAF & App Security: ASM, AWAF, Bot Protection, L7 DDoS</li>
-      <li>Cloud: AWS, Azure, F5 Distributed Cloud Services</li>
-      <li>Automation: REST APIs, iControl, Ansible, F5 AS3/DO/TS</li>
-    </ul>
-
-    <h2>Contact</h2>
-    <p>Email: vishnu.amplora@gmail.com</p>
-    <p>LinkedIn: https://www.linkedin.com/in/usaauscaamerica/</p>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="wrap">
+      <div class="brand">Vishnu<span>Gatla</span></div>
+      <div class="menu">
+        <a href="#about">ABOUT</a>
+        <a href="#timeline">TIMELINE</a>
+        <a href="#skills">SKILLS</a>
+        <a href="#projects">PROJECT</a>
+        <a href="#contact">CONTACT</a>
+      </div>
+    </div>
   </div>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div>
+      <h1>Vishnu Gatla</h1>
+      <p>Senior Network & Security Consultant | Over 10 Years Experience</p>
+      <a class="btn" href="#contact">Contact Now</a>
+    </div>
+    <div class="scroll-down"><i class="fa-solid fa-computer-mouse"></i></div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="title">
+        <h2>ABOUT</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="about-grid">
+        <div class="photo">
+          <!-- Put your photo file in repo as profile.jpg -->
+          <img src="profile.jpg" alt="Profile photo">
+        </div>
+
+        <div class="about-card">
+          <h3>Hi! I'm <span>Vishnu</span>. I'm a Network & Security Consultant.</h3>
+          <p>
+            I specialize in enterprise application delivery, security, and modernization using F5 platforms.
+            I design and execute migrations, harden edge security, and build resilient architectures across
+            on-prem, hybrid, and multi-cloud environments.
+          </p>
+          <p>
+            Core focus areas include VIPRION → VELOS migration, iSeries → rSeries modernization, BIG-IP/BIG-IQ operations,
+            WAF/bot protection, and F5 Distributed Cloud Services.
+          </p>
+
+          <div class="tags">
+            <div class="tag">VIPRION</div>
+            <div class="tag">VELOS</div>
+            <div class="tag">iSeries</div>
+            <div class="tag">rSeries</div>
+            <div class="tag">BIG-IP</div>
+            <div class="tag">BIG-IQ</div>
+            <div class="tag">F5 Distributed Cloud</div>
+            <div class="tag">AWAF / WAF</div>
+          </div>
+
+          <div class="social">
+            <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="#" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" title="Email"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline">
+    <div class="container">
+      <div class="title">
+        <h2>TIMELINE</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="t-item">
+          <div class="t-year">2022 – Present</div>
+          <div>
+            <h4>Senior Network & Security Consultant</h4>
+            <p>
+              Led enterprise migrations and modernization of F5 platforms (VIPRION → VELOS, iSeries → rSeries),
+              edge security hardening, WAF/bot protections, and hybrid cloud delivery patterns.
+            </p>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-year">2016 – 2022</div>
+          <div>
+            <h4>Network Engineer / ADC Engineer</h4>
+            <p>
+              Delivered BIG-IP LTM/GTM/APM/WAF solutions, performance tuning, incident response,
+              SSL/TLS lifecycle, and automation using iControl REST and Ansible.
+            </p>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-year">Education</div>
+          <div>
+            <h4>(Add your degree here)</h4>
+            <p>Replace this line with your college/university and year.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="title">
+        <h2>SKILLS</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="skills">
+        <div class="skill" data-level="92">
+          <div class="skill-top"><span>F5 BIG-IP (LTM/GTM/APM)</span><span>92%</span></div>
+          <div class="bar"><div class="fill"></div></div>
+        </div>
+
+        <div class="skill" data-level="90">
+          <div class="skill-top"><span>VIPRION → VELOS Migration</span><span>90%</span></div>
+          <div class="bar"><div class="fill"></div></div>
+        </div>
+
+        <div class="skill" data-level="88">
+          <div class="skill-top"><span>iSeries → rSeries Migration</span><span>88%</span></div>
+          <div class="bar"><div class="fill"></div></div>
+        </div>
+
+        <div class="skill" data-level="86">
+          <div class="skill-top"><span>WAF / AWAF / Bot Defense</span><span>86%</span></div>
+          <div class="bar"><div class="fill"></div></div>
+        </div>
+
+        <div class="skill" data-level="84">
+          <div class="skill-top"><span>F5 Distributed Cloud Services</span><span>84%</span></div>
+          <div class="bar"><div class="fill"></div></div>
+        </div>
+
+        <div class="skill" data-level="80">
+          <div class="skill-top"><span>Automation (iControl REST, AS3/DO/TS, Ansible)</span><span>80%</span></div>
+          <div class="bar"><div class="fill"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="title">
+        <h2>PROJECT</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="projects">
+        <div class="p-card">
+          <div class="p-icon"><i class="fa-solid fa-server"></i></div>
+          <h4>VIPRION → VELOS Modernization</h4>
+          <p>Migration planning, UCS strategy, validation, phased cutover, performance and security baseline.</p>
+          <a href="#">Read more</a>
+        </div>
+
+        <div class="p-card">
+          <div class="p-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <h4>iSeries → rSeries Migration</h4>
+          <p>Configuration modernization, HA design, SSL/TLS hardening, monitoring, and rollback planning.</p>
+          <a href="#">Read more</a>
+        </div>
+
+        <div class="p-card">
+          <div class="p-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <h4>WAF & Bot Protection</h4>
+          <p>AWAF baseline policies, bot mitigation, rate limiting, L7 DDoS controls, and tuning workflows.</p>
+          <a href="#">Read more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT BANNER -->
+  <div class="contact-banner">
+    <h2>WANT TO DO A PROJECT WITH ME?</h2>
+    <p>Feel free to contact me</p>
+    <a class="btn" href="#contact">GET STARTED</a>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact" style="padding-top:40px;">
+    <div class="container">
+      <div class="contact-wrap">
+        <div class="title" style="margin-bottom:18px;">
+          <h2>CONTACT</h2>
+          <div class="line"></div>
+        </div>
+
+        <div class="contact-cards">
+          <div class="c-card">
+            <i class="fa-solid fa-location-dot"></i>
+            <div class="label">ADDRESS</div>
+            <div class="value">Dallas, Texas, USA</div>
+          </div>
+          <div class="c-card">
+            <i class="fa-solid fa-phone"></i>
+            <div class="label">CONTACT NUMBER</div>
+            <div class="value">+1-XXX-XXX-XXXX</div>
+          </div>
+          <div class="c-card">
+            <i class="fa-solid fa-globe"></i>
+            <div class="label">WEBSITE</div>
+            <div class="value">vishnushri19.github.io</div>
+          </div>
+        </div>
+
+        <!-- NOTE: This form won't email you (static site). It's only UI like the example. -->
+        <form onsubmit="event.preventDefault(); alert('Thanks! For GitHub Pages, connect a form service (Formspree) to receive messages.');">
+          <input type="text" placeholder="Enter your full name *" required />
+          <input type="email" placeholder="Enter your email *" required />
+          <textarea placeholder="Your message *" required></textarea>
+          <div class="send">
+            <button type="submit">Send message</button>
+          </div>
+        </form>
+
+        <div class="note">
+          Tip: To receive messages on a GitHub Pages site, use a free form service like Formspree (no backend needed).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>© All Rights Reserved by Vishnu Gatla</div>
+    <div class="icons">
+      <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="#" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Animate skill bars when skills section is visible
+    const skillsSection = document.querySelector('#skills');
+    const skillBars = document.querySelectorAll('.skill');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          skillBars.forEach(s => {
+            const level = s.getAttribute('data-level');
+            s.querySelector('.fill').style.width = level + '%';
+          });
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(skillsSection);
+  </script>
 </body>
 </html>
